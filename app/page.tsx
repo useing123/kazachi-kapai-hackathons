@@ -1,65 +1,97 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Terminal, ArrowRight } from "lucide-react"
+import { getAllHackathons, getAllTags } from "@/lib/hackathons"
+import { HackathonList } from "@/components/hackathon-list"
+import { Badge } from "@/components/ui/badge"
 
-export default function Home() {
+export default function HomePage() {
+  const allHackathons = getAllHackathons()
+  const allTags = getAllTags()
+  const featured = allHackathons.filter((h) => h.featured)
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="mx-auto max-w-6xl px-4 py-12">
+      {/* Hero */}
+      <section className="mb-16">
+        <div className="mb-8 flex items-center gap-3">
+          <Terminal className="h-8 w-8 text-white" />
+          <h1 className="font-mono text-4xl font-bold tracking-tight text-white hacker-glow">
+            kazachi-kapai
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <p className="max-w-2xl font-mono text-lg text-[#888]">
+          open-source hackathon aggregator.
+          <br />
+          <span className="text-[#555]">$</span> find the next hackathon to conquer.
+        </p>
+        <div className="mt-6 flex items-center gap-4">
+          <Link
+            href="/hackathons"
+            className="inline-flex items-center gap-2 border border-white bg-white px-4 py-2 font-mono text-sm text-black transition-colors hover:bg-transparent hover:text-white"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            browse hackathons <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link
+            href="/submit"
+            className="inline-flex items-center gap-2 border border-[#333] px-4 py-2 font-mono text-sm text-[#888] transition-colors hover:border-white hover:text-white"
           >
-            Documentation
-          </a>
+            submit yours
+          </Link>
         </div>
-      </main>
+      </section>
+
+      {/* Featured */}
+      {featured.length > 0 && (
+        <section className="mb-16">
+          <div className="mb-4 flex items-center gap-2">
+            <h2 className="font-mono text-sm font-bold text-[#555]">$</h2>
+            <h2 className="font-mono text-sm text-[#555]">featured hackathons</h2>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {featured.map((h) => (
+              <Link
+                key={h.slug}
+                href={`/hackathons/${h.slug}`}
+                className="group block border border-[#333] bg-[#0a0a0a] p-6 transition-all hover:border-white"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <Badge variant="outline" className="mb-2 border-[#444] font-mono text-xs text-[#666]">
+                      featured
+                    </Badge>
+                    <h3 className="font-mono text-lg font-bold text-white group-hover:underline">
+                      {h.name}
+                    </h3>
+                    <p className="mt-1 font-mono text-sm text-[#666]">
+                      {h.location} · {h.mode}
+                    </p>
+                  </div>
+                  <ArrowRight className="mt-1 h-5 w-5 text-[#444] transition-transform group-hover:translate-x-1 group-hover:text-white" />
+                </div>
+                <p className="mt-3 font-mono text-sm text-[#888]">
+                  {h.description}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {h.tags.map((tag) => (
+                    <Badge key={tag} variant="outline" className="border-[#333] font-mono text-xs text-[#888]">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* All Hackathons */}
+      <section>
+        <div className="mb-4 flex items-center gap-2">
+          <h2 className="font-mono text-sm text-[#555]">$</h2>
+          <h2 className="font-mono text-sm text-[#555]">all hackathons</h2>
+        </div>
+        <HackathonList hackathons={allHackathons} allTags={allTags} />
+      </section>
     </div>
-  );
+  )
 }
