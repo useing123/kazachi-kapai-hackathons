@@ -44,10 +44,10 @@ export default async function HackathonDetailPage({ params }: PageProps) {
   const htmlContent = await renderMarkdown(hackathon.content)
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
       <Link
         href="/hackathons"
-        className="mb-8 inline-flex items-center gap-2 font-mono text-sm text-[#666] hover:text-white transition-colors"
+        className="mb-6 sm:mb-8 inline-flex items-center gap-2 font-mono text-sm text-[#666] hover:text-white transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         back
@@ -55,8 +55,8 @@ export default async function HackathonDetailPage({ params }: PageProps) {
 
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-start justify-between gap-4">
-          <div>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
             <Badge
               variant="outline"
               className={`mb-3 font-mono text-xs ${
@@ -69,7 +69,7 @@ export default async function HackathonDetailPage({ params }: PageProps) {
             >
               {hackathon.status === "ongoing" && "● "}{hackathon.status}
             </Badge>
-            <h1 className="font-mono text-3xl font-bold text-white">
+            <h1 className="font-mono text-2xl sm:text-3xl font-bold text-white">
               {hackathon.name}
             </h1>
           </div>
@@ -77,13 +77,13 @@ export default async function HackathonDetailPage({ params }: PageProps) {
             href={hackathon.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex shrink-0 items-center gap-1 border border-[#333] px-3 py-1.5 font-mono text-sm text-[#888] transition-colors hover:border-white hover:text-white"
+            className="flex shrink-0 items-center gap-1 self-start border border-[#333] px-3 py-1.5 font-mono text-sm text-[#888] transition-colors hover:border-white hover:text-white"
           >
             visit <ExternalLink className="h-3 w-3" />
           </Link>
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-4 font-mono text-sm text-[#888]">
+        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-sm text-[#888]">
           <span className="flex items-center gap-1.5">
             <Calendar className="h-4 w-4" />
             {formatDate(hackathon.date)}
@@ -98,7 +98,7 @@ export default async function HackathonDetailPage({ params }: PageProps) {
           </span>
         </div>
 
-        <p className="mt-4 font-mono text-[#888]">
+        <p className="mt-4 font-mono text-sm sm:text-base text-[#888]">
           {hackathon.description}
         </p>
 

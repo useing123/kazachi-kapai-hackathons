@@ -44,7 +44,7 @@ export function HackathonList({ hackathons, allTags, showFilters = true }: Hacka
       {showFilters && (
         <div className="mb-8 space-y-4">
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <StatusFilter value={selectedStatus} onChange={setSelectedStatus} />
             <TagFilter tags={allTags} selected={selectedTags} onToggle={toggleTag} />
           </div>
@@ -54,7 +54,7 @@ export function HackathonList({ hackathons, allTags, showFilters = true }: Hacka
         $ find hackathons — {filtered.length} result{filtered.length !== 1 ? "s" : ""}
       </div>
       {filtered.length === 0 ? (
-        <div className="border border-[#222] bg-[#0a0a0a] p-12 text-center font-mono text-[#555]">
+        <div className="border border-[#222] bg-[#0a0a0a] p-8 sm:p-12 text-center font-mono text-[#555]">
           no hackathons found
         </div>
       ) : (

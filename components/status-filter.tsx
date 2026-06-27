@@ -16,21 +16,23 @@ const statuses: { value: HackathonStatus | "all"; label: string }[] = [
 
 export function StatusFilter({ value, onChange }: StatusFilterProps) {
   return (
-    <div className="flex items-center gap-1 font-mono text-sm">
+    <div className="flex items-center gap-1 font-mono text-xs sm:text-sm">
       <span className="text-[#555]">status:</span>
-      {statuses.map((s) => (
-        <button
-          key={s.value}
-          onClick={() => onChange(s.value)}
-          className={`px-2 py-1 transition-colors ${
-            value === s.value
-              ? "bg-white text-black"
-              : "text-[#666] hover:text-white"
-          }`}
-        >
-          {s.label}
-        </button>
-      ))}
+      <div className="flex flex-wrap gap-0.5">
+        {statuses.map((s) => (
+          <button
+            key={s.value}
+            onClick={() => onChange(s.value)}
+            className={`px-2 py-1 transition-colors ${
+              value === s.value
+                ? "bg-white text-black"
+                : "text-[#666] hover:text-white"
+            }`}
+          >
+            {s.label}
+          </button>
+        ))}
+      </div>
     </div>
   )
 }
