@@ -6,14 +6,15 @@ open-source hackathon aggregator. no database, no auth — just markdown files a
 
 1. fork this repo
 2. add your hackathon as a `.md` file in `data/hackathons/`
-3. open a pull request
-4. after merge, your hackathon appears on the site
+3. validate your data
+4. open a pull request
+5. after merge, your hackathon appears on the site
 
 ## getting started
 
 ```bash
-git clone https://github.com/kazachi/kazachi-kapai.git
-cd kazachi-kapai
+git clone https://github.com/useing123/kazachi-kapai-hackathons
+cd kazachi-kapai-hackathons
 npm install
 npm run dev
 ```
@@ -60,6 +61,26 @@ featured: false
 your description goes here (markdown supported)
 ```
 
+## validating
+
+before opening a PR, run the validator to check your data:
+
+```bash
+npm run validate
+```
+
+this checks:
+- required fields (name, date, url, description, location, mode, tags, organizer, status)
+- valid date range format (`YYYY-MM-DD/YYYY-MM-DD`)
+- valid URLs
+- valid status (`upcoming` | `ongoing` | `completed`)
+- valid mode (`online` | `in-person` | `hybrid`)
+- tags is an array
+- winners have place, project, team
+- no duplicate winner places
+- sponsors have name
+- filename is lowercase with hyphens only
+
 ## schema
 
 | field | required | type | description |
@@ -96,6 +117,7 @@ kazachi-kapai/
 ├── components/           # react components
 ├── lib/                  # types + data layer
 ├── data/hackathons/      # .md files (the content)
+├── scripts/              # validators
 ├── netlify.toml          # deploy config
 └── package.json
 ```

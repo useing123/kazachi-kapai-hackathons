@@ -1,6 +1,10 @@
-const fs = require("fs")
-const path = require("path")
-const matter = require("gray-matter")
+import fs from "fs"
+import path from "path"
+import matter from "gray-matter"
+import { fileURLToPath } from "url"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const HACKATHONS_DIR = path.join(__dirname, "..", "data", "hackathons")
 
@@ -88,29 +92,24 @@ function validateHackathon(filePath) {
     return
   }
 
-  // Check required fields
   for (const field of REQUIRED_FIELDS) {
     if (data[field] === undefined || data[field] === null || data[field] === "") {
       error(fileName, `missing required field: "${field}"`)
     }
   }
 
-  // Validate status
   if (data.status && !VALID_STATUSES.includes(data.status)) {
     error(fileName, `invalid status "${data.status}", must be one of: ${VALID_STATUSES.join(", ")}`)
   }
 
-  // Validate mode
   if (data.mode && !VALID_MODES.includes(data.mode)) {
     error(fileName, `invalid mode "${data.mode}", must be one of: ${VALID_MODES.join(", ")}`)
   }
 
-  // Validate date
   if (data.date) {
     validateDateRange(data.date, fileName)
   }
 
-  // Validate deadline if present
   if (data.deadline) {
     if (typeof data.deadline !== "string") {
       error(fileName, `"deadline" must be a string, got ${typeof data.deadline}`)
@@ -119,12 +118,10 @@ function validateHackathon(filePath) {
     }
   }
 
-  // Validate URL
   if (data.url) {
     validateUrl(data.url, fileName, "url")
   }
 
-  // Validate tags
   if (data.tags) {
     if (!Array.isArray(data.tags)) {
       error(fileName, `"tags" must be an array, got ${typeof data.tags}`)
@@ -139,7 +136,6 @@ function validateHackathon(filePath) {
     }
   }
 
-  // Validate winners
   if (data.winners) {
     if (!Array.isArray(data.winners)) {
       error(fileName, `"winners" must be an array, got ${typeof data.winners}`)
@@ -166,7 +162,6 @@ function validateHackathon(filePath) {
     }
   }
 
-  // Validate sponsors
   if (data.sponsors) {
     if (!Array.isArray(data.sponsors)) {
       error(fileName, `"sponsors" must be an array, got ${typeof data.sponsors}`)
@@ -182,7 +177,6 @@ function validateHackathon(filePath) {
     }
   }
 
-  // Validate numbers
   if (data.totalParticipants !== undefined && typeof data.totalParticipants !== "number") {
     error(fileName, `"totalParticipants" must be a number, got ${typeof data.totalParticipants}`)
   }
@@ -190,25 +184,21 @@ function validateHackathon(filePath) {
     error(fileName, `"totalProjects" must be a number, got ${typeof data.totalProjects}`)
   }
 
-  // Validate featured
   if (data.featured !== undefined && typeof data.featured !== "boolean") {
     error(fileName, `"featured" must be a boolean, got ${typeof data.featured}`)
   }
 
-  // Check markdown body is not empty
   const parsed = matter(fileContent)
   if (!parsed.content || parsed.content.trim() === "") {
     warn(fileName, `markdown body is empty, consider adding a description`)
   }
 
-  // Validate slug (filename)
   const slug = fileName.replace(/\.md$/, "")
   if (!/^[a-z0-9-]+$/.test(slug)) {
     error(fileName, `filename "${slug}" must be lowercase with hyphens only (a-z, 0-9, -)`)
   }
 }
 
-// Main
 console.log("\n$ validate hackathons\n")
 
 if (!fs.existsSync(HACKATHONS_DIR)) {

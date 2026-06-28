@@ -1,4 +1,4 @@
-import { GitPullRequest, FileCode, CheckCircle } from "lucide-react"
+import { GitPullRequest, FileCode, CheckCircle, Shield } from "lucide-react"
 
 export const metadata = {
   title: "Submit a Hackathon — Kazachi Kapai",
@@ -85,6 +85,26 @@ your description goes here (markdown)
           <div className="mb-3 flex items-center gap-3">
             <span className="flex h-6 w-6 shrink-0 items-center justify-center border border-[#333] font-mono text-xs text-[#888]">
               3
+            </span>
+            <h2 className="font-mono text-sm font-bold text-white">validate your data</h2>
+            <Shield className="ml-auto h-4 w-4 shrink-0 text-[#444]" />
+          </div>
+          <p className="mb-3 font-mono text-sm text-[#888]">
+            run the validator to check your hackathon file before pushing:
+          </p>
+          <div className="overflow-x-auto border border-[#1a1a1a] bg-[#050505] p-4 font-mono text-sm text-[#888]">
+            <p><span className="text-[#555]">$</span> npm run validate</p>
+          </div>
+          <p className="mt-3 font-mono text-xs text-[#555]">
+            checks required fields, valid dates, URLs, status, mode, tags, winners, sponsors, and filename format.
+          </p>
+        </div>
+
+        {/* Step 4 */}
+        <div className="border border-[#222] bg-[#0a0a0a] p-4 sm:p-6">
+          <div className="mb-3 flex items-center gap-3">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center border border-[#333] font-mono text-xs text-[#888]">
+              4
             </span>
             <h2 className="font-mono text-sm font-bold text-white">open a pull request</h2>
             <CheckCircle className="ml-auto h-4 w-4 shrink-0 text-[#444]" />
